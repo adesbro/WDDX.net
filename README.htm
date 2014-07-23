@@ -14,7 +14,7 @@
     <body>
         <h3>WDDX.Net</h3>
         <p>
-            <strong>Version 1.0.4</strong>
+            <strong>Version 1.1.0</strong>
         </p>
         <p>
             <a href="mailto:jmueller@swiftk.com">Joel Mueller</a>
@@ -172,7 +172,7 @@
                     struct
                 </td>
                 <td>
-                    System.Collections.Hashtable (see notes below for details)
+                    System.Collections.Hashtable or specified type (see notes below for details)
                 </td>
             </tr>
             <tr>
@@ -206,6 +206,17 @@
             * The precision of the System.Decimal type is not directly supported by
             WDDX; when serialized if numbers have higher precision than 15 they will be first converted to Double.
         </p>
+
+        <p>
+            <strong>New in 1.1.0 (Adrian Brown):</strong>
+        </p>
+        <ul>
+            <li>updraded to .net framework 4</li>
+            <li>updraded solution to Visual Studio 2013</li>
+            <li>updated unit test to nunit 2.6 with NuGet package</li>
+            <li>fixed date time serializer to include '+' for timezones with an offset greater than zero</li>
+            <li>added deserialize methods with typed parameter to deserialize to a new instance of a specified type</li>
+        </ul>
         
         
         <p>
@@ -347,12 +358,13 @@ recordsets.</LI></UL>
                 object. In the case of nested (or jagged) arrays, it will be an
                 ArrayList object containing other ArrayList objects. Note that
                 a single-dimensional ArrayList can be converted to an array of
-                native types using the following syntax (C#):<br >
+                native types using the following syntax (C#):<br/>
                 <tt>int[] intArray =
                 (int[])theArrayList.ToArray(typeof(int));</tt>
             <li>
-                A WDDX "struct" element is deserialized into a 
-  Hashtable object. 
+                A WDDX "struct" element can be deserialized into a Hashtable object, or into a new instance of a specific type. 
+                To deserialize into a specific type, use the Deserialize methods with the typed parameter:<br/>
+                <tt>Person person = deserializer.Deserialize&lt;Person&gt;(structPacket);</tt>
             <li>
                 A WDDX "recordset" element is deserialized into a 
   DataSet object. Data types and column names are preserved. 
