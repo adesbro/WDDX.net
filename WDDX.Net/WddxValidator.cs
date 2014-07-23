@@ -69,6 +69,35 @@ namespace Mueller.Wddx
 		{
 			object retVal = null;
 
+            ProcessXmlReader(input, reader =>
+            {
+                IWddxElementDeserializer deserializer = WddxElementDeserializerFactory.GetDeserializer(reader.Name);
+                retVal = deserializer.ParseElement(reader);
+            });               
+
+			return retVal;
+		}
+
+        /// <summary>
+        ///		Deserialize an <see cref="System.Xml.XmlTextReader"/> pointing to a WDDX packet into an instance of a specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of the instance to deserialize into.</typeparam>
+        /// <param name="input">The pre-initialized <see cref="System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+        /// <exception cref="WddxValidationException">
+        ///		Invalid WDDX is encountered.
+        ///	</exception>
+        public T Deserialize<T>(XmlTextReader input)
+        {
+            T retVal = default(T);
+
+            IWddxElementTypedDeserializer deserializer = TypedDeserializer.Instance;
+            ProcessXmlReader(input, reader => retVal = deserializer.ParseElement<T>(reader));
+
+            return retVal;
+        }
+
+	    private void ProcessXmlReader(XmlTextReader input, Action<XmlReader> nodeAction)
+	    {
             //define the schema set
             this.SetSchemaSet();
             // Set the validation settings and schema reference
@@ -77,12 +106,11 @@ namespace Mueller.Wddx
             settings.IgnoreComments = true;
             settings.IgnoreWhitespace = true;
             settings.Schemas = _schemaCache;
-            settings.ValidationEventHandler += new ValidationEventHandler(this.ValidationCheckHandler);
+            settings.ValidationEventHandler += this.ValidationCheckHandler;
 
             //set up the reader
-            XmlReader reader = XmlReader.Create(input, settings);       
+            XmlReader reader = XmlReader.Create(input, settings);
 
-			IWddxElementDeserializer deserializer;
             try
             {
                 while (reader.Read())
@@ -90,18 +118,16 @@ namespace Mueller.Wddx
                     if (reader.NodeType == XmlNodeType.Element && reader.Name == "data")
                     {
                         reader.Read();  // move to next node after <data>
-                        deserializer = WddxElementDeserializerFactory.GetDeserializer(reader.Name);
-                        retVal = deserializer.ParseElement(reader);
+                        nodeAction(reader);
                     }
                 }
             }
-            catch (Exception e) { 
+            catch (Exception e)
+            {
                 //we also mark anything that runs into trouble during Validated desirialization with the validation exception
                 throw new WddxValidationException("Validation error parsing WDDX packet (B).", e.Message);
             }
-
-			return retVal;
-		}
+	    }
 
 		private void ValidationCheckHandler(object sender, ValidationEventArgs args)
 		{

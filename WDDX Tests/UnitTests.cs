@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Globalization;
-
-using Mueller.Wddx;
-
 using NUnit.Framework;
 
 namespace Mueller.Wddx.Tests
@@ -39,7 +36,7 @@ namespace Mueller.Wddx.Tests
             //format first part of the time
             IsoDateString = localDateTime.ToString(@"yyyy-MM-dd\THH:mm:ss", DateTimeFormatInfo.InvariantInfo);
             //check on hours postfix
-            postfix = localOffset.TotalHours.ToString("00.00");
+            postfix = localOffset.TotalHours.ToString("+00.00;-00.00;00.00");
             //if there is a period replace with colon otherwise add :0
             if (postfix.Contains("."))
             {
@@ -170,8 +167,17 @@ namespace Mueller.Wddx.Tests
 			DateTime resultDateNoTZ = (DateTime)deserializer.Deserialize(datePacketNoTZ);
 			Assert.AreEqual(expectedDate, resultDateNoTZ);
 
-			DateTime resultCFDate = (DateTime)deserializer.Deserialize(bogusCFDate);
-			Assert.AreEqual(expectedCFDate, resultCFDate);
+            // Updated this test to _require_ a WddxValidationException to be thrown as this is how
+            // the deserializer is written.
+		    try
+		    {
+                DateTime resultCFDate = (DateTime)deserializer.Deserialize(bogusCFDate);
+                Assert.Fail("Bogus CF Date should have thrown a validation exception.");
+		    }
+            catch (WddxValidationException)
+		    {
+                // Do nothing
+		    }
 
 			object resultNull = deserializer.Deserialize(nullPacket);
 			Assert.IsNull(resultNull);
@@ -355,6 +361,33 @@ namespace Mueller.Wddx.Tests
 			Assert.AreEqual(true, (bool)thisTable["aBoolean"]);
 			Assert.AreEqual(expectedDate, (DateTime)thisTable["aDateTime"]);
 		}
+
+	    private class TypedTestClass
+	    {
+            public float NumberProp { get; set; }
+            public bool BooleanProp { get; set; }
+            public DateTime DateTimeProp { get; set; }
+            public string StringProp { get; set; }
+	    }
+
+        /// <summary>
+        ///		Tests the deserialization of a basic WDDX struct.
+        /// </summary>
+        [Test]
+        public void TestBasicGenericsDeserialization()
+        {
+            DateTime expectedDate = new DateTime(1998, 6, 12, 4, 32, 12, System.DateTimeKind.Local);
+
+            string structPacket = String.Format(basicPacket, "<struct><var name=\"NumberProp\"><number>-12.456</number></var><var name=\"BooleanProp\"><boolean value=\"true\" /></var><var name=\"DateTimeProp\"><dateTime>" + ISO8601DateFormatter(expectedDate) + "</dateTime></var><var name=\"aNull\"><null /></var><var name=\"StringProp\"><string>a string</string></var></struct>");
+
+            WddxDeserializer deserializer = new WddxDeserializer();
+
+            TypedTestClass typedTestClass = deserializer.Deserialize<TypedTestClass>(structPacket);
+            Assert.AreEqual("a string", typedTestClass.StringProp);
+            Assert.AreEqual(-12.456f, typedTestClass.NumberProp);
+            Assert.AreEqual(true, typedTestClass.BooleanProp);
+            Assert.AreEqual(expectedDate, typedTestClass.DateTimeProp);
+        }
 
 		/// <summary>
 		///		Tests the serialization of nested and two-dimensional arrays.
@@ -801,3 +834,4 @@ namespace Mueller.Wddx.Tests
 		}
 	}
 }
+
