@@ -5,10 +5,10 @@ using System.Reflection;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("WDDX.Net")]
+[assembly: AssemblyTitle("Wddx.Net")]
 [assembly: AssemblyDescription("WDDX serializer/deserializer for the MS.NET framework.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Created for the community by Joel Mueller. Updated by Bilal Soylu.")]
+[assembly: AssemblyCompany("Created for the community by Joel Mueller. Updated by Bilal Soylu and Adrian Brown.")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]

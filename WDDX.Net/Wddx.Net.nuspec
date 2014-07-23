@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/adesbro/WDDX.net</licenseUrl>
+    <projectUrl>https://github.com/adesbro/WDDX.net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Wddx.Net is a WDDX serializer/deserializer for .NET.</description>
+    <releaseNotes>Release notes can be found at https://github.com/adesbro/WDDX.net </releaseNotes>
+    <copyright>Based on work by Joel Mueller with contributions from Bilal Soylu and Adrian Brown.</copyright>
+    <tags>WDDX .NET C# API</tags>
+  </metadata>
+</package>
