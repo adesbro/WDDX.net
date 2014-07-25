@@ -2,7 +2,7 @@ WDDX (Web Distributed Data eXchange) is a programming-language-, platform- and t
 
 The .NET implementation is based on work from Joel Mueller.
 Changes in version 1.0.4 contributed by Bilal Soylu.
-Changes in version 1.1.0 contributed by Adrian Brown.
+Changes in version 1.1.0+ contributed by Adrian Brown.
 
 
 Please review the Readme.htm file for release notes.

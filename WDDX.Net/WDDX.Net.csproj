@@ -139,23 +139,33 @@
     <Compile Include="IWddxObjectSerializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PropertyInfoExtensions.cs" />
     <Compile Include="StringDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="StringSerializer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TypedDeserializer.cs" />
+    <Compile Include="ClassDeserializer.cs" />
     <Compile Include="StructDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="StructSerializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypedArrayDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TypedDictionaryDeserializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="WddxDeserializer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WddxElementDeserializerFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WddxElementTypedDeserializerFactory.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WddxObjectSerializerFactory.cs">

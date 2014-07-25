@@ -380,6 +380,15 @@
             <param name="message">A message that describes the current exception.</param>
             <param name="validationError">A message that describes the specific validation failure.</param>
         </member>
+        <member name="M:Mueller.Wddx.WddxValidationException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            	Initializes a new instance of the WddxValidationException class,
+            	specifying the validation error message and an inner exception.
+            </summary>
+            <param name="message">A message that describes the current exception.</param>
+            <param name="validationError">A message that describes the specific validation failure.</param>
+            <param name="inner">The exception to store within this one.</param>
+        </member>
         <member name="M:Mueller.Wddx.WddxValidationException.ToString">
             <summary>
             	Returns a string that represents the current object.
@@ -419,16 +428,47 @@
         </member>
         <member name="T:Mueller.Wddx.IWddxElementTypedDeserializer">
             <summary>
-               Interface that defines the behavior for typed deserializers.
+            Interface that defines the behavior for typed deserializers.
             </summary>
         </member>
         <member name="M:Mueller.Wddx.IWddxElementTypedDeserializer.ParseElement``1(System.Xml.XmlReader)">
             <summary>
-            	Parses the WDDX element and returns the deserialized content as an instance of a 
-                specified type, advancing the reader to the next element.
+            Parses the WDDX element and returns the deserialized content as an instance of a 
+            specified type, advancing the reader to the next element.
             </summary>
             <typeparam name="T">The type of the instance to deserialize into.</typeparam>
             <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+        </member>
+        <member name="M:Mueller.Wddx.IWddxElementTypedDeserializer.ParseElement(System.Xml.XmlReader,System.Type)">
+            <summary>
+            Parses the WDDX element and returns the deserialized content as an instance of a 
+            specified type, advancing the reader to the next element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <param name="elementType">The type of the instance to deserialize into.</param>
+        </member>
+        <member name="T:Mueller.Wddx.PropertyInfoExtensions">
+            <summary>
+            Extension methods for the <c>PropertyInfo</c> class.
+            </summary>
+        </member>
+        <member name="M:Mueller.Wddx.PropertyInfoExtensions.SetAndConvertValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Object[])">
+            <summary>
+            Sets the property value of a specified object with optional index values for index properties.
+            It will also attempt to convert the object to the destination type if the type is different.
+            </summary>
+            <param name="propertyInfo">The instance of the <c>PropertyInfo</c> class this applies to.</param>
+            <param name="obj">The object whose property value will be set. </param>
+            <param name="value">The new property value. </param>
+            <param name="index">Optional index values for indexed properties. This value should be null for non-indexed properties. </param>
+        </member>
+        <member name="M:Mueller.Wddx.PropertyInfoExtensions.ToNameDictionary(System.Collections.Generic.IEnumerable{System.Reflection.PropertyInfo})">
+            <summary>
+            Creates a dictionary for a PropertyInfo collection with a Key being the name of the property
+            and the value being the PropertyInfo itself. If the property has a [DataMember] attribute
+            overriding the Name, then this is used instead of the property name.
+            </summary>
+            <param name="properties">The collection of properties to create a name lookup for.</param>
         </member>
         <member name="T:Mueller.Wddx.StringDeserializer">
             <summary>
@@ -475,7 +515,7 @@
             	Provides access to the instance of this class.
             </summary>
         </member>
-        <member name="T:Mueller.Wddx.TypedDeserializer">
+        <member name="T:Mueller.Wddx.TypedArrayDeserializer">
             <summary>
             	Deserializes a WDDX struct element into a <see cref="T:System.Collections.Hashtable"/> object.
             </summary>
@@ -485,15 +525,116 @@
             </remarks>
             <seealso cref="T:Mueller.Wddx.IWddxElementDeserializer"/>
         </member>
-        <member name="M:Mueller.Wddx.TypedDeserializer.ParseElement``1(System.Xml.XmlReader)">
+        <member name="M:Mueller.Wddx.TypedArrayDeserializer.ParseElement``1(System.Xml.XmlReader)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as an instance of a 
+                specified type, advancing the reader to the next element.
+            </summary>
+            <typeparam name="T">The type of the instance to deserialize into.</typeparam>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <remarks>The return type will be an Array.</remarks>
+        </member>
+        <member name="M:Mueller.Wddx.TypedArrayDeserializer.ParseElement(System.Xml.XmlReader,System.Type)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as an instance of a 
+                specified type, advancing the reader to the next element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <param name="elementType">The type of the instance to deserialize into.</param>
+            <remarks>The return type will be an Array.</remarks>
+        </member>
+        <member name="M:Mueller.Wddx.TypedArrayDeserializer.ParseElement(System.Xml.XmlReader)">
             <summary>
             	Parses the WDDX element and returns the deserialized
-            	content as a <see cref="T:System.Collections.Hashtable"/> object, advancing the reader to the next
+            	content as an object, advancing the reader to the next
             	element.
             </summary>
             <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <remarks>This is not supported for this class.</remarks>
         </member>
-        <member name="P:Mueller.Wddx.TypedDeserializer.Instance">
+        <member name="P:Mueller.Wddx.TypedArrayDeserializer.Instance">
+            <summary>
+            	Provides access to the instance of this class.
+            </summary>
+        </member>
+        <member name="T:Mueller.Wddx.TypedDictionaryDeserializer">
+            <summary>
+            	Deserializes a WDDX struct element into a <see cref="T:System.Collections.Hashtable"/> object.
+            </summary>
+            <remarks>
+            	This class is a Singleton class - only one instance of it will ever exist
+            	in a given AppDomain.
+            </remarks>
+            <seealso cref="T:Mueller.Wddx.IWddxElementDeserializer"/>
+        </member>
+        <member name="M:Mueller.Wddx.TypedDictionaryDeserializer.ParseElement``1(System.Xml.XmlReader)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as an instance of a 
+                specified type, advancing the reader to the next element.
+            </summary>
+            <typeparam name="T">The type of the instance to deserialize into.</typeparam>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <remarks>The return type will be a typed Dictionary.</remarks>
+        </member>
+        <member name="M:Mueller.Wddx.TypedDictionaryDeserializer.ParseElement(System.Xml.XmlReader,System.Type)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as an instance of a 
+                specified type, advancing the reader to the next element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <param name="elementType">The type of the instance to deserialize into.</param>
+            <remarks>The return type will be a typed Dictionary.</remarks>
+        </member>
+        <member name="M:Mueller.Wddx.TypedDictionaryDeserializer.ParseElement(System.Xml.XmlReader)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized
+            	content as an object, advancing the reader to the next
+            	element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <remarks>This is not supported for this class.</remarks>
+        </member>
+        <member name="P:Mueller.Wddx.TypedDictionaryDeserializer.Instance">
+            <summary>
+            	Provides access to the instance of this class.
+            </summary>
+        </member>
+        <member name="T:Mueller.Wddx.ClassDeserializer">
+            <summary>
+            	Deserializes a WDDX struct element into a <see cref="T:System.Collections.Hashtable"/> object.
+            </summary>
+            <remarks>
+            	This class is a Singleton class - only one instance of it will ever exist
+            	in a given AppDomain.
+            </remarks>
+            <seealso cref="T:Mueller.Wddx.IWddxElementDeserializer"/>
+        </member>
+        <member name="M:Mueller.Wddx.ClassDeserializer.ParseElement``1(System.Xml.XmlReader)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as 
+                a specific typed object, advancing the reader to the next element.
+            </summary>
+            <typeparam name="T">The type of the object to be returned.</typeparam>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+        </member>
+        <member name="M:Mueller.Wddx.ClassDeserializer.ParseElement(System.Xml.XmlReader,System.Type)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized content as 
+                a specific typed object, advancing the reader to the next element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <param name="elementType">The type of the object to be returned.</param>
+        </member>
+        <member name="M:Mueller.Wddx.ClassDeserializer.ParseElement(System.Xml.XmlReader)">
+            <summary>
+            	Parses the WDDX element and returns the deserialized
+            	content as an object, advancing the reader to the next
+            	element.
+            </summary>
+            <param name="input">The pre-initialized <see cref="T:System.Xml.XmlTextReader"/> pointing to the WDDX to be parsed.</param>
+            <remarks>This is not supported for this class.</remarks>
+        </member>
+        <member name="P:Mueller.Wddx.ClassDeserializer.Instance">
             <summary>
             	Provides access to the instance of this class.
             </summary>
@@ -692,6 +833,22 @@
             	of the element being processed.
             </summary>
             <param name="TagName">A valid WDDX tag name.</param>
+        </member>
+        <member name="T:Mueller.Wddx.WddxElementTypedDeserializerFactory">
+            <summary>
+            	This class provides the appropriate typed deserializer
+            	based on the tag name of the element being processed.
+                ie: deserialize to a specific type
+            </summary>
+        </member>
+        <member name="M:Mueller.Wddx.WddxElementTypedDeserializerFactory.GetDeserializer(System.String,System.Type)">
+            <summary>
+            	Gets the appropriate typed deserializer based on the tag name
+            	of the element being processed and the destination type it is
+                being deserialized to.
+            </summary>
+            <param name="tagName">A valid WDDX tag name.</param>
+            <param name="destinationType">The <c>Type</c> of the destination</param>
         </member>
         <member name="T:Mueller.Wddx.WddxObjectSerializerFactory">
             <summary>

@@ -1,7 +1,0 @@
-C:\Projects\GitHub\WDDX.net\WDDX.Net\bin\Debug\Wddx.Net.dll.config
-C:\Projects\GitHub\WDDX.net\WDDX.Net\bin\Debug\Wddx.Net.dll
-C:\Projects\GitHub\WDDX.net\WDDX.Net\bin\Debug\Wddx.Net.pdb
-C:\Projects\GitHub\WDDX.net\WDDX.Net\bin\Debug\WDDX.Net.xml
-C:\Projects\GitHub\WDDX.net\WDDX.Net\obj\Debug\Wddx.Net.dll
-C:\Projects\GitHub\WDDX.net\WDDX.Net\obj\Debug\Wddx.Net.pdb
-C:\Projects\GitHub\WDDX.net\WDDX.Net\obj\Debug\WDDX.Net.csprojResolveAssemblyReference.cache

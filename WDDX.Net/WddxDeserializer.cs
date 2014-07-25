@@ -181,7 +181,7 @@ namespace Mueller.Wddx
             }
 
             T retVal = default(T);
-            IWddxElementTypedDeserializer deserializer = TypedDeserializer.Instance;
+            IWddxElementTypedDeserializer deserializer = ClassDeserializer.Instance;
             ReadXmlText(input, reader => retVal = deserializer.ParseElement<T>(input));
 
             return retVal;
@@ -211,7 +211,7 @@ namespace Mueller.Wddx
                 }
                 catch (Exception e)
                 {
-                    throw new WddxValidationException("Validation error parsing WDDX packet (C) at node index " + a + ":", e.Message);
+                    throw new WddxValidationException("Validation error parsing WDDX packet (C) at node index " + a + ":", e.Message, e);
                 }
             }
         }

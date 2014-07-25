@@ -16,7 +16,7 @@ namespace Mueller.Wddx
 	[Serializable]
 	public class WddxValidationException : WddxException
 	{
-		private string validationError = "";
+		private readonly string _validationError = "";
 
 		public WddxValidationException() : base() {}
 		public WddxValidationException(string message) : base(message) {}
@@ -30,15 +30,28 @@ namespace Mueller.Wddx
 		/// <param name="validationError">A message that describes the specific validation failure.</param>
 		public WddxValidationException(string message, string validationError) : base(message)
 		{
-			validationError = validationError;
+			_validationError = validationError;
 		}
+
+        /// <summary>
+        ///		Initializes a new instance of the WddxValidationException class,
+        ///		specifying the validation error message and an inner exception.
+        /// </summary>
+        /// <param name="message">A message that describes the current exception.</param>
+        /// <param name="validationError">A message that describes the specific validation failure.</param>
+        /// <param name="inner">The exception to store within this one.</param>
+        public WddxValidationException(string message, string validationError, Exception inner)
+            : base(message, inner)
+        {
+            _validationError = validationError;
+        }
 
 		/// <summary>
 		///		The error message returned by XSD validation.
 		/// </summary>
 		public string ValidationError
 		{
-			get { return validationError; }
+			get { return _validationError; }
 		}
 
 		/// <summary>
@@ -47,7 +60,7 @@ namespace Mueller.Wddx
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return "WDDX validation error:\n" + validationError + "\n\n" + base.ToString();
+			return "WDDX validation error:\n" + _validationError + "\n\n" + base.ToString();
 		}
 	}
 }

@@ -90,7 +90,7 @@ namespace Mueller.Wddx
         {
             T retVal = default(T);
 
-            IWddxElementTypedDeserializer deserializer = TypedDeserializer.Instance;
+            IWddxElementTypedDeserializer deserializer = ClassDeserializer.Instance;
             ProcessXmlReader(input, reader => retVal = deserializer.ParseElement<T>(reader));
 
             return retVal;

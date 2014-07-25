@@ -8,7 +8,7 @@ using System.Reflection;
 [assembly: AssemblyTitle("Wddx.Net")]
 [assembly: AssemblyDescription("WDDX serializer/deserializer for the MS.NET framework.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Created for the community by Joel Mueller. Updated by Bilal Soylu and Adrian Brown.")]
+[assembly: AssemblyCompany("Joel Mueller. Updated by Bilal Soylu and Adrian Brown.")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
@@ -24,9 +24,9 @@ using System.Reflection;
 //
 // You can specify all the value or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.1.0.*")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
-[assembly: AssemblyInformationalVersion("1.1.0")]
+[assembly: AssemblyVersion("1.1.1.*")]
+[assembly: AssemblyFileVersion("1.1.1.0")]
+[assembly: AssemblyInformationalVersion("1.1.1")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
